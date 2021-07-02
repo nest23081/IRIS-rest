@@ -16,6 +16,8 @@ CORS(app)
 
 @app.route('/', methods = ['GET','POST'])
 def index():
+    onul=datetime.today().strftime("%Y%m%d")
+
     baseDate=[]
     baseTime=[]
     category=[]
@@ -79,7 +81,9 @@ def index():
     strfcstValue=re.findall(r'"([^"]*)"',str(fcstValue))
     fcstValue.clear()
     for y in range(1,20,2):
-        fcstValue.append(strfcstValue[y]) 
+        fcstValue.append(strfcstValue[y])
+
+
 
     a=(
     {
@@ -107,7 +111,20 @@ def index():
     }
     }
     )
-    return json.dumps(a)
+
+    b=(
+        {
+    "error": {
+        "code": 0,
+        "messages": "Oh, There's someting wrong"
+    }
+    }
+    )
+
+    if onul in baseDate:
+        return json.dumps(a)
+    else:
+        return json.dumps(b)
 
 @app.route('/ex', methods = ['GET','POST'])
 def index_ex_post():
@@ -129,6 +146,26 @@ def index_ex_post():
             ]
         }
     }
+
+    return json.dumps(a)
+
+@app.route('/error', methods = ['GET','POST'])
+def error_code():
+    a = {
+    "error": {
+        "messages": "Oh, There is someting wrong"
+    },
+}
+
+    return json.dumps(a)
+
+@app.route('/success', methods = ['GET','POST'])
+def success_code():
+    a = {
+    "success": {
+        "messages": "OKAY"
+    },
+}
 
     return json.dumps(a)
 
